@@ -1,5 +1,5 @@
 ---
-- name: Installing Nginx
+- name: "Installing Nginx"
   hosts:
     scripts: "192.168.16.36"
   vars:
@@ -14,7 +14,7 @@
     ningx_nobody_group: www-data
     
   tasks:
-    - name: Installing Ningx packages
+    - name: "Installing Ningx packages"
       apt:
         name: "{{ nginx_package }}"
         state: latest
@@ -22,7 +22,7 @@
       notify:
         - start_nginx
       
-    - name: Update welcome.html file
+    - name: "Update welcome.html file"
       template:
         src: welcome.html.j2
         dest: /var/www/html/index.html
