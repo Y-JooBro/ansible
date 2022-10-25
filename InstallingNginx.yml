@@ -1,6 +1,10 @@
 ---
 - name: Installing Nginx
-  hosts: scripts
+  hosts:
+    scripts:
+      ansible_host: 192.168.16.36
+      ansible_user: dudu
+      ansible_password: dudu
   become: yes
   vars:
     nginx_package: nginx
