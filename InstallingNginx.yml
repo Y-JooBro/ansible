@@ -7,7 +7,6 @@
     ansible_password: dudu
     ansible_become_password: dudu
     become: yes
-  vars:
     nginx_package: nginx
     nginx_service: nginx
     nginx_nobody_user: www-data
