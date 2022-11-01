@@ -1,0 +1,61 @@
+---
+- name: Copy and Run Diagnose Vulnerability Scripts for Docker
+  hosts: 192.168.16.36
+  become: yes
+
+  tasks:
+    - name: Copy scripts.tar.gz to Remote Server
+      ansible.builtin.copy:
+        src: /home/ansible/scripts.tar.gz
+        dest: /tmp/
+        owner: dudu
+        group: dudu
+        mode: '0644'
+    
+    - name: Extract scripts.tar.gz file
+      command: tar -zxvf scripts.tar.gz scripts/ chdir=/tmp/
+      args:
+        warn: false
+      register: extract
+    
+    - name: Run Docker Scripts
+      command: /bin/bash run.sh chdir=/tmp/scripts/docker
+      register: run
+
+    - name: Chekcing Result File
+      ansible.builtin.stat:
+        path: /tmp/scripts/docker/stdout.txt
+      register: file_data
+
+    - name: Report Result File exists
+      command: cat stdout.txt chdir=/tmp/scripts/docker
+      register: result_file
+      when: file_data.stat.exists
+
+    - name: Print Result File
+      debug:
+        msg: "{{ result_file.stdout_lines }}"
+    
+    - name: Checking Verbose File
+      ansible.builtin.stat:
+        path: /tmp/scripts/docker/verbose
+      register: file_data
+
+    - name: Report Verbose File exists
+      command: cat verbose chdir=/tmp/scripts/docker
+      register: verbose_file
+      when: file_data.stat.exists
+
+    - name: Print Verbose File
+      debug:
+        msg: "{{ verbose_file.stdout_lines }}"
+
+    - name: Fetch Result File
+      ansible.builtin.fetch:
+        src: /tmp/scripts/docker/stdout.txt
+        dest: /home/ansible/playbook_test/diagnose/result
+
+    - name: Fetch Verbose File
+      ansible.builtin.fetch:
+        src: /tmp/scripts/docker/verbose
+        dest: /home/ansible/playbook_test/diagnose/result
