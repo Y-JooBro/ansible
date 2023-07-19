@@ -2,5 +2,12 @@
 2022-2 Capstone Design Team DuduEntry Ansible
 
 플레이북 실행 시
-1. scripts 파일은 remote 서버에서 (192.168.16.36) ansible 서버(이하 현재 서버)가져옵니다.
+1. scripts 파일은 remote 서버에서 (192.168.16.36) ansible 서버(이하 현재 서버)로 가져옵니다.
 2. scripts.tar.gz 파일은 현재 서버의 /tmp/ 디렉토리 아래에 저장됩니다.
+
+참고
+1. ansible-playbook/diagnose/ready.yml 파일은 플레이북 재실행시 사전 준비 작업 파일입니다.
+2. ansible-playbook/diagnose/visualization/ready.sh 파일은 플레이북 내 시각화 자료 재생성시 사전 준비 작업 파일입니다.
+3. ansible-playbook/diagnose/diagnose.yml 파일은 메인 플레이북 파일입니다.
+4. ansible-playbook/diagnose/kubernetes_diagnose.yml, ansible-playbook/diagnose/podman_diagnose.yml 파일은 메인 플레이북 파일로 실행되는 서브 플레이북 파일입니다.
+5. ansible-playbook/diagnose/hosts.yml 파일에서 진단 대상 시스템을 정의할 수 있습니다.
